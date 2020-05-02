@@ -3,15 +3,22 @@
 
 // I AM NOT DONE
 
+#[derive(Debug)]
 enum Message {
     // TODO: implement the message variant types based on their usage below
+    ChangeColor(u8, u8, u8),
+    Echo(String),
+    Move{ x: u8, y: u8 },
+    Quit
 }
 
+#[derive(Debug)]
 struct Point {
     x: u8,
     y: u8
 }
 
+#[derive(Debug)]
 struct State {
     color: (u8, u8, u8),
     position: Point,
@@ -37,6 +44,13 @@ impl State {
 
     fn process(&mut self, message: Message) {
         // TODO: create a match expression to process the different message variants
+        // println!("{:?}", message.variant);
+        match message {
+            Message::ChangeColor(c1, c2, c3) => self.change_color((c1, c2, c3)),
+            Message::Echo(val) => self.echo(val),
+            Message::Move{x, y} => self.move_position( Point{x: x, y: y} ),
+            Message::Quit => self.quit()
+        };
     }
 }
 
@@ -63,3 +77,16 @@ mod tests {
     }
 
 }
+
+// fn main() {
+//   let mut state = State{
+//       quit: false,
+//       position: Point{ x: 0, y: 0 },
+//       color: (0, 0, 0)
+//   };
+//   println!("{:?}", state);
+//   state.process(Message::ChangeColor(255, 0, 255));
+//   state.process(Message::Echo(String::from("hello world")));
+//   state.process(Message::Move{ x: 10, y: 15 });
+//   state.process(Message::Quit);
+// }
